@@ -1,0 +1,17 @@
+<plugin name='prototype' version='1.0' grailsVersion='1.4 &gt; *'>
+  <author>Rob Fletcher</author>
+  <authorEmail>rob@energizedwork.com</authorEmail>
+  <title>Prototype Grails Plugin</title>
+  <description>\
+This plugin adds the Prototype, Scriptaculous and Rico JavaScript libraries to 
+Grails and provides integration of those libraries with Grails' Javascript tags.
+</description>
+  <documentation>http://grails.org/plugin/prototype</documentation>
+  <type>PrototypeGrailsPlugin</type>
+  <resources>
+    <resource>PrototypePluginResources</resource>
+    <resource>grails.plugin.prototype.TestController</resource>
+  </resources>
+  <dependencies />
+  <behavior />
+</plugin>
