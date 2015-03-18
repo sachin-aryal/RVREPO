@@ -49,26 +49,28 @@ class StudentController {
 
 
     def edit() {
-
-        def studentInstance = Student.findByRollno(params.Rollno)
+        def studentInstance = Student.findByRollno(params.id)
         if (!studentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'student.label', default: 'ResultViewer.Student'), params.Rollno])
             redirect(action: "list")
-            return
         }
-
         [studentInstance: studentInstance]
     }
 
     def update() {
         def studentInstance = Student.findById(params.id)
+        if(studentInstance){
         studentInstance.properties = params
         flash.message = message(code: 'default.updated.message', args: [message(code: 'student.label', default: 'ResultViewer.Student'), studentInstance.rollno])
         redirect action: 'list'
+        }
+        else{
+            redirect action: 'edit',params: [id:params.id]
+        }
     }
 
     def delete() {
-        def studentInstance = Student.findByRollno(params.Rollno)
+        def studentInstance = Student.findByRollno(params.id)
         if (!studentInstance) {
             render action: 'list'
         }
@@ -113,24 +115,25 @@ class StudentController {
     }
 
     def SearchUser(Integer max) {
+        if(params.query){
         params.max = Math.min(max ?: 10, 1000)
         def studentInstanceList
         try {
-            int rollno = Integer.parseInt(params.query)
-            println "Inside"
+            Integer.parseInt(params.query)
             studentInstanceList = Student.findAllByRollno(params.query, params)
         } catch (NumberFormatException) {
             studentInstanceList = Student.findAllByNameIlike('%' + params.query + '%', params)
         }
-        if (!studentInstanceList) {
-            flash.message = "No ResultViewer.Result Found"
         }
         render view: 'list', model: [studentInstanceList: studentInstanceList, studentInstanceTotal: studentInstanceList.size()]
 
     }
 
     def StudentReport() {
-        def subjectExamination = [16]
+        def studentInstance=Student.findById(params.id)
+        def percentage=[16],Semester=[],Examination=[]
+        if(studentInstance){
+        def subjectExamination = []
         int semester = 1
         for (int i = 0; i < 8; i++) {
             subjectExamination[i] = SubjectExamination.findAllBySemesterAndExamination(semester, 1)
@@ -210,88 +213,121 @@ class StudentController {
             resultSem8Pre.add(Result.findBySubjectExaminationAndStudent(SubjectExamination.findById(subjectExamination[15].id[i]), Student.findById(params.id)))
         }
 
-        def percentage=[]
         if (resultSem1Mid) {
             def fullMarks = subjectExamination[0].fullMarks.sum()
             def marks = resultSem1Mid.marks.sum()
             percentage[0] = (marks / fullMarks) * 100
+            Semester[0] = "Semester I"
+            Examination[0] = "Midterm"
         }
         if (resultSem1Pre) {
             def fullMarks = subjectExamination[8].fullMarks.sum()
             def marks = resultSem1Pre.marks.sum()
             percentage[1] = (marks / fullMarks) * 100
+            Semester[1] = "Semester I"
+            Examination[1] = "Preboard"
         }
         if (resultSem2Mid) {
             def fullMarks = subjectExamination[1].fullMarks.sum()
             def marks = resultSem2Mid.marks.sum()
             percentage[2] = (marks / fullMarks) * 100
+            Semester[2] = "Semester II"
+            Examination[2] = "Midterm"
         }
         if (resultSem2Pre) {
             def fullMarks = subjectExamination[9].fullMarks.sum()
             def marks = resultSem2Pre.marks.sum()
             percentage[3] = (marks / fullMarks) * 100
+            Semester[3] = "Semester II"
+            Examination[3] = "Preboard"
         }
         if (resultSem3Mid) {
             def fullMarks = subjectExamination[2].fullMarks.sum()
             def marks = resultSem3Mid.marks.sum()
             percentage[4] = (marks / fullMarks) * 100
+            Semester[4] = "Semester III"
+            Examination[4] = "Midterm"
         }
         if (resultSem3Pre) {
             def fullMarks = subjectExamination[10].fullMarks.sum()
             def marks = resultSem1Pre.marks.sum()
             percentage[5] = (marks / fullMarks) * 100
+            Semester[5] = "Semester III"
+            Examination[5] = "Preboard"
         }
         if (resultSem4Mid) {
             def fullMarks = subjectExamination[3].fullMarks.sum()
             def marks = resultSem4Mid.marks.sum()
             percentage[6] = (marks / fullMarks) * 100
+            Semester[6] = "Semester IV"
+            Examination[6] = "Midterm"
         }
         if (resultSem4Pre) {
             def fullMarks = subjectExamination[11].fullMarks.sum()
             def marks = resultSem4Pre.marks.sum()
             percentage[7] = (marks / fullMarks) * 100
+            Semester[7] = "Semester IV"
+            Examination[7] = "Preboard"
         }
         if (resultSem5Mid) {
             def fullMarks = subjectExamination[4].fullMarks.sum()
             def marks = resultSem5Mid.marks.sum()
             percentage[8] = (marks / fullMarks) * 100
+            Semester[8] = "Semester V"
+            Examination[8] = "Midterm"
         }
         if (resultSem5Pre) {
             def fullMarks = subjectExamination[12].fullMarks.sum()
             def marks = resultSem5Pre.marks.sum()
             percentage[9] = (marks / fullMarks) * 100
+            Semester[9] = "Semester V"
+            Examination[9] = "Preboard"
         }
         if (resultSem6Mid) {
             def fullMarks = subjectExamination[5].fullMarks.sum()
             def marks = resultSem6Mid.marks.sum()
             percentage[10] = (marks / fullMarks) * 100
+            Semester[10] = "Semester VI"
+            Examination[10] = "Midterm"
         }
         if (resultSem6Pre) {
             def fullMarks = subjectExamination[13].fullMarks.sum()
             def marks = resultSem6Pre.marks.sum()
             percentage[11] = (marks / fullMarks) * 100
+            Semester[11] = "Semester VI"
+            Examination[11] = "Preboard"
         }
         if (resultSem7Mid) {
             def fullMarks = subjectExamination[6].fullMarks.sum()
             def marks = resultSem7Mid.marks.sum()
             percentage[12] = (marks / fullMarks) * 100
+            Semester[12] = "Semester VII"
+            Examination[12] = "Midterm"
         }
         if (resultSem7Pre) {
             def fullMarks = subjectExamination[14].fullMarks.sum()
             def marks = resultSem7Pre.marks.sum()
             percentage[13] = (marks / fullMarks) * 100
+            Semester[13] = "Semester VII"
+            Examination[13] = "Preboard"
         }
         if (resultSem8Mid) {
             def fullMarks = subjectExamination[7].fullMarks.sum()
             def marks = resultSem8Mid.marks.sum()
             percentage[14] = (marks / fullMarks) * 100
+            Semester[14] = "Semester VIII"
+            Examination[14] = "Midterm"
         }
         if (resultSem8Pre) {
             def fullMarks = subjectExamination[15].fullMarks.sum()
             def marks = resultSem8Pre.marks.sum()
             percentage[15] = (marks / fullMarks) * 100
+            Semester[15] = "Semester VIII"
+            Examination[15] = "Preboard"
         }
-        [Percentage:percentage]
+        }
+        println percentage
+        [Percentage:percentage,Semester:Semester,Examination:Examination]
 
         /*[Percentage1:percentage1,Percentage2:percentage2,Percentage3:percentage3,Percentage4:percentage4,Percentage5:percentage5,
          Percentage6:percentage6,Percentage7:percentage7,Percentage8:percentage8,Percentage9:percentage9,Percentage10:percentage10,
@@ -339,9 +375,10 @@ class StudentController {
     def String wrapSearchParm(value) {
         '%'+value+'%'
     }
-    def SearchStudent = {
-        def studentInstanceList =Student.findAllByNameIlike(wrapSearchParm(params.searchvalue))
-        render(view:'list', model:[studentInstanceList:studentInstanceList])
+    def SearchStudent(){
+        println "Coming"
+        def studentInstanceList =Student.findAllByNameIlike(wrapSearchParm(params.StdName))
+        render(template: 'userList', model:[studentInstanceList:studentInstanceList])
     }
 
 

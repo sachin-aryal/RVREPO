@@ -46,19 +46,17 @@
 <g:javascript>
     var myData=new Array();
     var data=new Array();
-    data=${Percentage};
-    console.log("Data Size"+data.length);
-    var i=0;
-    for(i=0;i<16;i++){
+    data[0]=${Percentage.get(0)}
+    data[1]=${Percentage.get(1)}
+    data[2]=${Percentage.get(2)}
+    //console.log("Data Size"+data.length);
+    var i;
+    for(i=0;i<(data.length);i++){
+    console.log(data[i]);
         if(data[i]!=null){
             myData.push([i+1,data[i]]);
-
         }
-
     }
-
-
-
 var myChart = new JSChart('curve_chart', 'line');
 myChart.setDataArray(myData);
 myChart.setAxisNameFontSize(13);
@@ -91,12 +89,6 @@ for(i=0;i<16;i++){
         }
     }
 myChart.setTooltipBackground('#fff');
-%{--myChart.setTooltip([1,'${Semester[0]}'+" Semester Midterm->"+${Percentage[0]}]);
-myChart.setTooltip([2,'${Semester[0]}'+" Semester Preboard->"+${Percentage[1]}]);
-myChart.setTooltip([3,'${Semester[1]}'+" Semester Midterm->"+${Percentage[2]}]);
-myChart.setTooltip([4,'${Semester[1]}'+" Semester Preboard->"+${Percentage[3]}]);
-myChart.setTooltip([5,'${Semester[2]}'+" Semester Midterm->"+${Percentage[4]}]);
-myChart.setTooltip([6,'${Semester[2]}'+" Semester Preboard->"+${Percentage[5]}]);--}%
     myChart.draw();
 </g:javascript>
 </body>
