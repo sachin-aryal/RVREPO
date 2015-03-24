@@ -5,8 +5,7 @@ import jxl.Sheet
 import jxl.Workbook
 
 class ResultController {
-    //def beforeInterceptor=[action: this.&auth]
-
+    def beforeInterceptor=[action: this.&auth]
     def index() {
         render view: 'ViewResult'
     }
@@ -22,10 +21,8 @@ class ResultController {
         float[] marks = new float[SubjectName.size()]
         for (int i = 0; i < SubjectName.size(); i++) {
             marks[i] = params.get(SubjectName[i]) as Float
-            println "------------------"
-            println SubjectName[i]
-            println marks[i]
         }
+        if(marks){
         for (int i = 0; i < SubjectName.size(); i++) {
             def resultInstance = new Result()
             resultInstance.subjectExamination = SubjectExamination.findById(subjectExamination.id[i])
@@ -34,11 +31,14 @@ class ResultController {
             if (!resultInstance.save(flush: true)) {
                 flash.message = "Oops!! Some Error occurred Try Again"
             } else {
-                flash.message = "ResultViewer.Result is successfully saved"
+                flash.message = "Result is successfully saved"
             }
         }
+        }
+        else{
+            flash.message="No data received"
+        }
 //        chartService.createChart(marks,SubjectName)
-
         forward(controller: "subjectExamination", action: "getSubjectList", params: [semester: semester, examination: examination])
 
     }
@@ -49,8 +49,6 @@ class ResultController {
             studentInstance = Student.findByRollno(params.RollNo)
             if (studentInstance) {
                 def resultInstanceList = []
-                println params.Semester + params.Examination + "Semester and Examination"
-                println "-------------"
                 def subjectExaminationInstance = SubjectExamination.findAllBySemesterAndExamination(params.Semester, params.Examination)
 
                 for (int i = 0; i < subjectExaminationInstance.size(); i++) {
@@ -60,6 +58,10 @@ class ResultController {
                 render view: 'ViewResult', model: [StudentInstance: studentInstance, ResultInstanceList: resultInstanceList, SubjectExaminationInstance: subjectExaminationInstance, semester: (message(code: 'semester' + params.Semester)), examination: (message(code: 'examination' + params.Examination))]
             }
         }
+        else{
+            flash.message="No data received!!"
+            render view:'ViewResult'
+        }
 
     }
 
@@ -68,23 +70,19 @@ class ResultController {
         def SubjectExaminationInstance = SubjectExamination.findAllBySemesterAndExamination(params.Semester, params.Examination)
         def count = SubjectExaminationInstance.size()
         def studentInstance = Student.findById(params.id)
-        println studentInstance.id
+        if(studentInstance){
         for (int i = 0; i < count; i++) {
             resultInstanceList.add(Result.findBySubjectExaminationAndStudent(SubjectExamination.findById(SubjectExaminationInstance.id[i]), Student.findById(studentInstance.id)))
         }
-        if (resultInstanceList) {
-            println "Contains Some Value"
-        }
         render view: 'editMarks', model: [StudentInstance: studentInstance, ResultInstanceList: resultInstanceList, SubjectExaminationInstance: SubjectExaminationInstance]
-
+        }
+        flash.message="No data recieved"
+        render view:'ViewResult'
 
     }
 
     def update() {
         if (params.Semester && params.Examination) {
-            println "Inside First Loop"
-            println params.id
-            println "semester" + params.Semester + "and Examination" + params.Examination
             def SubjectExaminationInstance = SubjectExamination.findAllBySemesterAndExamination(params.Semester, params.Examination)
             def count = SubjectExaminationInstance.size()
             def subjectName = SubjectExaminationInstance.subjectName
@@ -110,16 +108,12 @@ class ResultController {
             }
             def studentInstanceList = Student.findByRollno(params.EditedRollno)
             if (studentInstanceList) {
-                println "Inside second Loop"
 
                 def resultInstanceList = []
                 for (int i = 0; i < count; i++) {
-                    println "SubjectId" + SubjectExaminationInstance.id[i]
                     resultInstanceList.add(Result.findBySubjectExaminationAndStudent(SubjectExamination.findById(SubjectExaminationInstance.id[i]), Student.findById(studentInstanceList.id)))
-                    println "Marks" + resultInstanceList.marks
                 }
                 render view: 'ViewResult', model: [StudentInstance: studentInstanceList, ResultInstanceList: resultInstanceList, SubjectExaminationInstance: SubjectExaminationInstance, semester: (message(code: 'semester' + params.Semester)), examination: (message(code: 'examination' + params.Examination))]
-
             }
         }
 
@@ -130,18 +124,31 @@ class ResultController {
         def count = SubjectExaminationInstance.size()
         def subjectName = SubjectExaminationInstance.subjectName
         Result[] resultList = new Result[count]
+        if(Student.findById(params.id)){
         for (int i = 0; i < count; i++) {
-            resultList[i] = (Result.findBySubjectExaminationAndStudent(SubjectExamination.findBySubjectName(subjectName[i]), Student.findByRollno(params.id)))
-            resultList[i].delete()
+            resultList[i] = (Result.findBySubjectExaminationAndStudent(SubjectExamination.findBySubjectName(subjectName[i]), Student.findById(params.id)))
+            if(resultList[i]){
+                resultList[i].delete()
+            }
+            else{
+                flash.message="No Result Found!!"
+                break
+            }
+        }
+            flash.message="The Result is succesfully deleted!"
+        }
+        else{
+            flash.message="The User is does not exists!"
         }
         render view: 'ViewResult'
     }
 
     def importResult() {
 //        StudentExcelImporter studentExcelImporter=new StudentExcelImporter(request.getFile)
-        println "Import ResultViewer.Result"
         def subjectExamination = SubjectExamination.findAllBySemesterAndExamination(params.Semester, params.Examination)
         def file = request.getFile('file')
+        if(file){
+        try{
         Workbook workbook = Workbook.getWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheet(0);
         println sheet.getColumns()
@@ -159,45 +166,56 @@ class ResultController {
                 if (!resultInstance.save(flush: true)) {
                     flash.message = "Oops!! Some Error occurred Try Again"
                 } else {
-                    flash.message = "ResultViewer.Result is successfully saved"
+                    flash.message = "Result is successfully saved"
                 }
             }
-
-
         }
-
-    }
-    def exportService()
-    {
-        def grailsApplication  //inject GrailsApplication
-        def list = {
-            if (!params.max) params.max = 10
-
-            if (params?.format && params.format != "html") {
-                response.contentType = grailsApplication.config.grails.mime.types[params.format]
-                response.setHeader("Content-disposition", "attachment; filename=books.${params.extension}")
-
-                exportService.export(params.format, response.outputStream, Student.list(params), [:], [:])
+        }
+        catch (Exception e){
+                flash.message="Format does not match!!"
             }
 
-
+        }
+        else{
+            flash.message="No data received!!"
         }
 
     }
+//    def exportService()
+//    {
+//        def grailsApplication  //inject GrailsApplication
+//        def list = {
+//            if (!params.max) params.max = 10
+//
+//            if (params?.format && params.format != "html") {
+//                response.contentType = grailsApplication.config.grails.mime.types[params.format]
+//                response.setHeader("Content-disposition", "attachment; filename=books.${params.extension}")
+//
+//                exportService.export(params.format, response.outputStream, Student.list(params), [:], [:])
+//            }
+//
+//
+//        }
+//
+//    }
+    def auth(){
+        println actionName+"-----"
+        if(session.getAttribute("Username")!=null&&session.getAttribute("Role").equals("student")){
+            flash.message="Access Denied!!Don't try to break"
+            redirect controller: 'student', action: 'index'
+        }
+        else if(session.getAttribute("Username")!=null&&session.getAttribute("Role").equals("admin")){
+//        if(actionName.equalsIgnoreCase("index")||actionName.equalsIgnoreCase("PublishResult")||actionName.equalsIgnoreCase("ViewResult")||
+//            actionName.equalsIgnoreCase("update")||actionName.equalsIgnoreCase("delete")||actionName.equalsIgnoreCase("edit")||
+//                actionName.equalsIgnoreCase("importResult")) {
+            return true
+        }
+        else{
+            redirect action: 'Login'
+        }
+    }
+
 }
 
-/*    all(controller:'*', action:'"\\\\b(?!loginValidator\\\\b)\\\\w+"') {
-        before = {
-            if(session.getAttribute("Username")==null){
-                redirect(controller:"admin", action:"Login")
-                return false
-            }
-            else if(session.getAttribute("Role").equals("admin")){
-                return true
-            }else if(session.getAttribute("Role").equals("student")){
-                redirect(controller:"student", action:"index")
-            }else{
-                redirect(controller:"admin", action:"Login")
-                return false
-            }
-        }*/
+
+

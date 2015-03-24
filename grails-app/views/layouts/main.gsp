@@ -7,7 +7,6 @@
     <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"><!--<![endif]-->
 <head>
     <title>Result Viewer </title>
-
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'formDesign.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'table.css')}" type="text/css">
@@ -23,10 +22,10 @@
     %{--<g:javascript src="../js/script.js"/>--}%
     <link rel="stylesheet" href="${resource(dir: 'font_awesome/css', file: 'font-awesome.css')}" type="text/css">
     <g:javascript src="../js/jscharts.js"/>
-
     <g:layoutHead/>
-    %{--<g:javascript library="application" plugin="jquery"/>--}%
-    %{--<g:javascript plugin="prototype" library="prototype"  />--}%
+    <g:javascript library="application" plugin="jquery"/>
+    <g:javascript plugin="prototype" library="prototype"  />
+
     <style type="text/css">
     #userList{
         width: 960px;

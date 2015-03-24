@@ -70,6 +70,7 @@ grails.project.dependency.resolution = {
         compile ":excel-import:1.0.0"
         compile ":export:1.6"
         runtime ":prototype:1.0"
+        compile ":mail:1.0.7"
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"
         //runtime ":cached-resources:1.1"

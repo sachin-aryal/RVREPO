@@ -17,7 +17,7 @@
 
 <body>
 <div id="userList" class="content scaffold-list" role="main">
-
+    <g:if test="${studentInstanceList}">
     <table class="tableDesign">
         <g:if test="${studentInstanceList.size()>60}">
             <h1 id="tableheader">Student List</h1>
@@ -56,6 +56,10 @@
         <g:paginate next="Next" prev="Back" controller="student" action="StudentList"
                     total="${studentInstanceTotal}" params="${params}"/>
     </div>
+    </g:if>
+    <g:else>
+        <p>No Student List Found!!</p>
+    </g:else>
 </div>
 </body>
 </html>

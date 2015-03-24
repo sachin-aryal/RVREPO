@@ -20,6 +20,9 @@
     <div class="exportExcelStudentList">
         <g:link controller="student" action="exportStudentList">Export to Excel</g:link>
     </div>
+    <g:link params="[format:'pdf']" title="Export To pdf" action="exportList">Export</g:link>
+    <export:formats formats="['excel']" params="" title="Export To Excel"/>
+
     <div class="importStudent">
         <g:uploadForm controller="student" action="doUploadNewStudent">
             <fieldset class="form">
@@ -40,9 +43,14 @@
             </fieldset>
             <g:actionSubmit value="Submit" action = "importStudent"/>
         </g:form>--}%
+    <g:if test="${studentInstanceList}">
     <table class="tableDesign">
         <g:render template="userList"/>
     </table>
+    </g:if>
+    <g:else>
+        <p>No User Found!!</p>
+    </g:else>
 
 </div>
 

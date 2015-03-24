@@ -13,6 +13,8 @@
 </head>
 
 <body>
-
+<g:if test="${flash.message}">
+    <h1>${flash.message}</h1>
+</g:if>
 </body>
 </html>

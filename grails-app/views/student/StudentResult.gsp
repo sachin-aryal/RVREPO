@@ -38,7 +38,9 @@
                     <td>${StudentInstance.name}</td>
                     <td>${StudentInstance.rollno}</td>
                     <g:each in="${ResultInstanceList}" var="resultInstance">
+                        <g:if test="${resultInstance}">
                         <td><g:formatNumber number="${resultInstance.marks}" format="0.0"/> </td>
+                        </g:if>
                     </g:each>
 
                     <%
@@ -71,6 +73,9 @@
         </div>
 
     </g:if>
+    <g:else>
+        <p>No Result Found!!</p>
+    </g:else>
 </div>
 </body>
 </html>

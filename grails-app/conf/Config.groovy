@@ -61,6 +61,17 @@ grails {
         // escapes all not-encoded output at final stage of outputting
         // filteringCodecForContentType.'text/html' = 'html'
     }
+    mail {
+        host = "smtp.gmail.com"
+        port = 587
+        username = "sachin91719@gmail.com"
+        password = "phenol69"
+        props = ["mail.smtp.auth":"true",
+                 "mail.smtp.socketFactory.port":"587",
+                 "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+                 "mail.smtp.socketFactory.fallback":"false"]
+    }
+
 }
 
 
@@ -119,3 +130,4 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
