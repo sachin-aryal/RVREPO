@@ -114,8 +114,5 @@
         </g:form>
     </div>
 </g:if>
-    <g:else>
-        <p>No Result found!!</p>
-    </g:else>
 </body>
 </html>

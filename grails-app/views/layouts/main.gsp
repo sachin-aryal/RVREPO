@@ -10,16 +10,14 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'formDesign.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'table.css')}" type="text/css">
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'table.css')}" type="text/css">
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'table.css')}" type="text/css">
-    %{--<g:javascript src="../js/html5shiv.min.js"/>--}%
-    %{--<g:javascript src="../js/respond.min.js"/>--}%
-    %{--<![endif]-->--}%
-    %{--<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->--}%
-    %{--<g:javascript src="../js/jquery.mobile-1.4.2.min.js"/>--}%
-    %{--<!-- Include all compiled plugins (below), or include individual files as needed -->--}%
-    %{--<g:javascript src="../js/bootstrap.js"/>--}%
-    %{--<g:javascript src="../js/script.js"/>--}%
+    <g:javascript src="../js/html5shiv.min.js"/>
+    <g:javascript src="../js/respond.min.js"/>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <g:javascript src="../js/jquery.mobile-1.4.2.min.js"/>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <g:javascript src="../js/bootstrap.js"/>
+    <g:javascript src="../js/script.js"/>
     <link rel="stylesheet" href="${resource(dir: 'font_awesome/css', file: 'font-awesome.css')}" type="text/css">
     <g:javascript src="../js/jscharts.js"/>
     <g:layoutHead/>
@@ -158,6 +156,9 @@
 
 </div>
 </html>
+<g:hasErrors>
+
+</g:hasErrors>
 </g:if>
 <g:else>
     <g:javascript>

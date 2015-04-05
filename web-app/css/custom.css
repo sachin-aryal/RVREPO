@@ -221,7 +221,7 @@ footer {
 	width: 100%;
 	height: 20px;
 	padding: 5px 0px;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	left: 0;
 	background: #444;
@@ -239,3 +239,9 @@ ul#navElementStudent {
     padding-left: 175px;
 }
 
+#StudentInfo ul {
+	display: inline-block;
+}
+#StudentInfo img {
+	float: right;
+}
