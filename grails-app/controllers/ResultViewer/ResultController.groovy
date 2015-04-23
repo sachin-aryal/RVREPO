@@ -13,7 +13,6 @@ class ResultController {
     def PublishResult() {
         def semester = params.Semester
         def examination = params.Examination
-//        ChartService chartService=new ChartService()
         println semester + examination
         def SubjectName
         def subjectExamination = SubjectExamination.findAllBySemesterAndExamination(semester, examination)
@@ -38,7 +37,6 @@ class ResultController {
         else{
             flash.message="No data received"
         }
-//        chartService.createChart(marks,SubjectName)
         forward(controller: "subjectExamination", action: "getSubjectList", params: [semester: semester, examination: examination])
 
     }
@@ -144,7 +142,6 @@ class ResultController {
     }
 
     def importResult() {
-//        StudentExcelImporter studentExcelImporter=new StudentExcelImporter(request.getFile)
         def subjectExamination = SubjectExamination.findAllBySemesterAndExamination(params.Semester, params.Examination)
         def file = request.getFile('file')
         if(file){
@@ -157,7 +154,6 @@ class ResultController {
             /*def marks=[sheet.getColumns()-1]*/
             NumberCell Rollno = sheet.getCell(0, row)
             for (int column = 1; column < sheet.getColumns(); column++) {
-                println "Inside the column loop"
                 NumberCell Marks = sheet.getCell(column, row)
                 def resultInstance = new Result()
                 resultInstance.subjectExamination = SubjectExamination.findById(subjectExamination.id[column - 1])

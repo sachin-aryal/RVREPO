@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class StudentController {
 //    def beforeInterceptor=[action: this.&auth]
-    def studentService
+    def studentControllerService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -21,7 +21,8 @@ class StudentController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [studentInstanceList: Student.list(params), studentInstanceTotal: Student.count()]
+        [studentInstanceList: Student.list(params), studentInstanceTotal: Student.count(),listType:"All"]
+
     }
 
     def create() {
@@ -52,7 +53,7 @@ class StudentController {
         println params.id
         def studentInstance = Student.findById(params.id)
         if (!studentInstance) {
-            flash.message ="Student not found with this id"
+            flash.message ="Not Found!!"
             redirect(action: "list")
         }
         [studentInstance: studentInstance]
@@ -134,7 +135,7 @@ class StudentController {
         if (Student.findById(params.id)) {
             def studentInstance=Student.findById(params.id)
             int id = params.id as Integer
-            Map<String, List> map = studentService.getStudentReport(id)
+            Map<String, List> map = studentControllerService.getStudentReport(id)
             def percentage = [16]
             def semester = [16]
             def examination = [16]
@@ -186,17 +187,25 @@ class StudentController {
         workbook.write();
         workbook.close();
     }
-    def String wrapSearchParm(value) {
-        '%'+value+'%'
+    def SearchStudent(Integer max){
+        println "Ajax Call"
+        def studentInstanceList
+        if(params.query){
+            println params.query
+            params.max = Math.min(max ?: 10, 1000)
+            try {
+                Integer.parseInt(params.query)
+                studentInstanceList = Student.findAllByRollnoIlike('%' +params.query + '%', params)
+            } catch (NumberFormatException) {
+                studentInstanceList = Student.findAllByNameIlike('%' + params.query + '%', params)
+            }
+        }
+        else{
+            redirect(action: 'list')
+        }
+        println studentInstanceList.name
+        render(template: 'userList', model:[studentInstanceList:studentInstanceList,studentInstanceTotal: studentInstanceList.size()])
     }
-    def SearchStudent(){
-        println "Coming"
-        def studentInstanceList =Student.findAllByNameIlike(wrapSearchParm(params.StdName))
-        render(template: 'userList', model:[studentInstanceList:studentInstanceList])
-    }
-
-
-
 
     def auth() {
         println actionName+"-----"
