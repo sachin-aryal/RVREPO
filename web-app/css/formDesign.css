@@ -35,14 +35,14 @@ img{max-width:100%;}
 }
 /*--start-wrap--*/
 .content {
-	width:80%;
+	width:75%;
 	margin:0 auto;
 }
 /*--strat-login-form--*/
 
 
 .Regisration {
-	width: 34%;
+	width: 33%;
 	text-align:center;
 	margin: 0 auto;
 	background:#1C4877;
@@ -82,8 +82,8 @@ div#Register {
 .Regisration-head span{
 	background: url(../images/user-icon.png) no-repeat -5px -6px;
 	position: absolute;
-	top: 28%;
-	left: 25%;
+	top: 20%;
+	left: 12%;
 	height: 40px;
 	width: 40px;
 }

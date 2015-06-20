@@ -1,4 +1,4 @@
-<div c
+
 <div id="nav">
     <ul id="navElement">
         <li>

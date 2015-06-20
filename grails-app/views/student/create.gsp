@@ -10,6 +10,21 @@
         font-style: italic;
         color:red;
     }
+    .content {
+        width: 75%;
+    }
+    div#Register {
+        margin-left: 20px;
+        margin-top: -15px;
+    }
+    .Regisration-head span {
+        background: url(../images/user-icon.png) no-repeat -5px -6px;
+        position: absolute;
+        top: 19%;
+        left: 25%;
+        height: 40px;
+        width: 40px;
+    }
     </style>
 
 </head>

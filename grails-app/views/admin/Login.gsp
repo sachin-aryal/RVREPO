@@ -46,7 +46,7 @@
                     <br>
 
                   <g:if test="${flash.message}">
-                      ${flash.message}
+                      <p style="font-style: italic;color: red">${flash.message}</p>
                   </g:if>
                 </div>
             </fieldset>

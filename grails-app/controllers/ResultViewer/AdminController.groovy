@@ -2,8 +2,14 @@ package ResultViewer
 
 class AdminController {
     def beforeInterceptor=[action: this.&auth]
-
+    //static allowedMethods = [Login: "POST"]
     def Login() {
+        if(params.loginResult){
+            String loginResult=params.loginResult
+            if(loginResult.equalsIgnoreCase("warn")){
+                flash.message="Username and Password did not match!!"
+            }
+        }
 
     }
 
@@ -37,7 +43,7 @@ class AdminController {
             session.setAttribute("Role", "student")
             redirect controller: 'student', action: 'index'
         } else {
-            redirect(action: 'Login')
+            redirect(action: 'Login',params:[loginResult:"warn"])
         }
     }
 
@@ -69,15 +75,15 @@ class AdminController {
         println "Working"
 
         try{
-        sendMail{
-            to 'sachin91719@gmail.com'
-            println "sending"
-            subject subjectR
-            body bodyOfEmail
-            println "sending1"
-        }
-    }catch(Exception e){
-             e.printStackTrace()
+            sendMail{
+                to 'sachin.aryal@deerwalk.edu.np'
+                println "sending"
+                subject subjectR
+                body bodyOfEmail
+                println "sending1"
+            }
+        }catch(Exception e){
+            e.printStackTrace()
         }
         render view:'contactUs'
     }
@@ -89,7 +95,7 @@ class AdminController {
         println actionName+"-----"
         if(actionName.equalsIgnoreCase("loginValidator")||actionName.equalsIgnoreCase("Login")||actionName.equalsIgnoreCase("logout")
                 ||actionName.equalsIgnoreCase("ContactUs")||actionName.equalsIgnoreCase("AboutUs")){
-                return true
+            return true
         }
         else{
             if(session.getAttribute("Username")!=null&&session.getAttribute("Role").equals("admin")){

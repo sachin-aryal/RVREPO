@@ -6,11 +6,11 @@
     <meta name="layout" content="main">
     <title>Result Viewer</title>
     <g:javascript library="jquery"/>
-    <g:javascript>
-        function showResult(str){
-        <g:remoteFunction controller="student" action="SearchStudent" update="StudentSearch" params="'query='+str"/>
-        }
-    </g:javascript>
+    %{--<g:javascript>--}%
+        %{--function showResult(str){--}%
+        %{--<g:remoteFunction controller="student" action="SearchStudent" update="StudentSearch" params="'query='+str"/>--}%
+        %{--}--}%
+    %{--</g:javascript>--}%
 </head>
 <body>
 <div id="userList" class="content scaffold-list" role="main">
@@ -29,11 +29,11 @@
         </g:uploadForm>
 
     </div>
-    <div id="ajaxSearch">
+    %{--<div id="ajaxSearch">
         <form>
             <input type="text" size="30" onkeyup="showResult(this.value)"/>
         </form>
-    </div>
+    </div>--}%
     %{--    <g:form enctype="multipart/form-data" controller = "student">
             <fieldset>
                 <g:textArea name="sheetName" placeholder="SheetName"></g:textArea>

@@ -7,20 +7,21 @@
     <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"><!--<![endif]-->
 <head>
     <title>Result Viewer </title>
+    %{--<link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" type="text/css">--}%
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'formDesign.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'table.css')}" type="text/css">
-    <g:javascript src="../js/html5shiv.min.js"/>
-    <g:javascript src="../js/respond.min.js"/>
-    <![endif]-->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <g:javascript src="../js/jquery.mobile-1.4.2.min.js"/>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <g:javascript src="../js/bootstrap.js"/>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'font-awesome.css')}" type="text/css">
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'semantic.min.css')}" type="text/css">
+
+
     <g:javascript src="../js/script.js"/>
     <link rel="stylesheet" href="${resource(dir: 'font_awesome/css', file: 'font-awesome.css')}" type="text/css">
     <g:javascript src="../js/jscharts.js"/>
     <g:layoutHead/>
+    <g:javascript src="bootstrap.min.js"/>
+    <g:javascript src="jquery-1.11.1.js"/>
+    <g:javascript src="semantic.min.js"/>
     <g:javascript library="application" plugin="jquery"/>
     <g:javascript plugin="prototype" library="prototype"  />
 
@@ -93,7 +94,6 @@
         color: rgb(28, 72, 119);
         float: right;
         margin-top: 8px;
-        margin-right: 406px;
     }
     .exportExcelStudentList {
         float: right;
@@ -106,11 +106,14 @@
     }
     fieldset.uploadStudent {
         float: right;
-        margin-top: -34px;
+        margin-top: -55px;
         margin-right: 12px;
     }
     fieldset.uploadResult {
         margin-right: 12px;
+    }
+    ul#navElement ul li{
+        width: 100%;
     }
     </style>
     <r:layoutResources />
