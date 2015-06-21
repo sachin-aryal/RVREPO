@@ -195,13 +195,7 @@ ul#navElement ul li{
 	left: auto;
 }
 
-#nav li li ul {
-	margin: -1px 0 0 160px;
-	-webkit-border-radius: 0 10px 10px 10px;
-	-moz-border-radius: 0 10px 10px 10px;
-	border-radius: 0 10px 10px 10px;
-	visibility: hidden;
-}
+
 
 #nav li li:hover ul {
 	visibility: visible;

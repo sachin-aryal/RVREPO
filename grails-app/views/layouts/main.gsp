@@ -23,7 +23,6 @@
     <g:javascript src="jquery-1.11.1.js"/>
     <g:javascript src="semantic.min.js"/>
     <g:javascript library="application" plugin="jquery"/>
-    <g:javascript plugin="prototype" library="prototype"  />
 
     <style type="text/css">
     #userList{
@@ -115,6 +114,18 @@
     ul#navElement ul li{
         width: 100%;
     }
+    li#semWrapper {
+        width: 100%;
+    }
+    #nav li li ul {
+        margin: -1px 0 0 160px;
+        -webkit-border-radius: 0 10px 10px 10px;
+        -moz-border-radius: 0 10px 10px 10px;
+        border-radius: 0 10px 10px 10px;
+        visibility: hidden;
+        width: 62%
+    }
+
     </style>
     <r:layoutResources />
 </head>
